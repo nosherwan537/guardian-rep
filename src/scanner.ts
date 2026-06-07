@@ -1,9 +1,10 @@
 import type { Finding, PackageTarget, ScanReport, RiskLevel } from './types'
 import { fetchPackument } from './utils/registry'
 
-export interface CheckFn {
-  (packageName: string, packument: import('./utils/registry').RegistryPackument): Finding[]
-}
+export type CheckFn = (
+  target: PackageTarget,
+  packument: import('./utils/registry').RegistryPackument,
+) => Finding[] | Promise<Finding[]>
 
 const RISK_ORDER: RiskLevel[] = ['critical', 'high', 'medium', 'low', 'info']
 
@@ -37,7 +38,7 @@ async function scanPackage(
 
   const findings: Finding[] = []
   for (const check of checks) {
-    findings.push(...check(target.name, result.data))
+    findings.push(...await check(target, result.data))
   }
   return findings
 }

@@ -1,13 +1,13 @@
-import type { Finding } from '../types'
+import type { Finding, PackageTarget } from '../types'
 import type { RegistryPackument } from '../utils/registry'
 import { isKnownMalicious } from '../data/knownMalicious'
 
-export function checkKnownMalicious(packageName: string, _packument: RegistryPackument): Finding[] {
-  const reason = isKnownMalicious(packageName)
+export function checkKnownMalicious(target: PackageTarget, _packument: RegistryPackument): Finding[] {
+  const reason = isKnownMalicious(target.name)
   if (!reason) return []
 
   return [{
-    packageName,
+    packageName: target.name,
     level: 'critical',
     check: 'known-malicious',
     title: 'Known malicious package',

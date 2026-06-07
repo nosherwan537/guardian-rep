@@ -1,4 +1,4 @@
-import type { Finding } from '../types'
+import type { Finding, PackageTarget } from '../types'
 import type { RegistryPackument } from '../utils/registry'
 
 // Scripts npm runs automatically — never triggered by the user
@@ -96,7 +96,8 @@ const PATTERNS: Pattern[] = [
   },
 ]
 
-export function checkLifecycleScripts(packageName: string, packument: RegistryPackument): Finding[] {
+export function checkLifecycleScripts(target: PackageTarget, packument: RegistryPackument): Finding[] {
+  const { name: packageName } = target
   const latestVersion = packument['dist-tags']?.latest
   if (!latestVersion) return []
 

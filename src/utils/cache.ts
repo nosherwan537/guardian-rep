@@ -3,18 +3,19 @@ import { join } from 'path'
 import { homedir } from 'os'
 
 const CACHE_DIR = join(homedir(), '.npmguard', 'cache')
-const TTL_MS = 24 * 60 * 60 * 1000
+export const TTL_24H = 24 * 60 * 60 * 1000
+export const TTL_1H = 60 * 60 * 1000
 
 function cachePath(packageName: string, version: string): string {
   const safeName = packageName.replace(/\//g, '__')
   return join(CACHE_DIR, safeName, `${version}.json`)
 }
 
-export async function readCache<T>(packageName: string, version: string): Promise<T | null> {
+export async function readCache<T>(packageName: string, version: string, ttlMs = TTL_24H): Promise<T | null> {
   const file = cachePath(packageName, version)
   try {
     const s = await stat(file)
-    if (Date.now() - s.mtimeMs > TTL_MS) return null
+    if (Date.now() - s.mtimeMs > ttlMs) return null
     const raw = await readFile(file, 'utf-8')
     return JSON.parse(raw) as T
   } catch {
