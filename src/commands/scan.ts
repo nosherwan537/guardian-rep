@@ -6,6 +6,7 @@ import { checkKnownMalicious } from '../checks/knownMalicious'
 import { checkLifecycleScripts } from '../checks/lifecycleScripts'
 import { checkAdvisory } from '../checks/advisory'
 import { checkTyposquat } from '../checks/typosquat'
+import { checkPackageAge } from '../checks/packageAge'
 
 export const scanCommand = new Command('scan')
   .description('Scan a package.json without installing dependencies')
@@ -30,7 +31,7 @@ export const scanCommand = new Command('scan')
       process.exit(0)
     }
 
-    const report = await scan(targets, [checkKnownMalicious, checkLifecycleScripts, checkAdvisory, checkTyposquat], pkg.resolvedPath)
+    const report = await scan(targets, [checkKnownMalicious, checkLifecycleScripts, checkAdvisory, checkTyposquat, checkPackageAge], pkg.resolvedPath)
 
     if (options.json) {
       console.log(renderJson(report))
