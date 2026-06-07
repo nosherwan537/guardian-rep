@@ -2,8 +2,12 @@
   "name": "npm-guardian",
   "version": "0.1.0",
   "description": "Scan npm dependencies before installation to catch typosquats, malicious scripts, and known malware",
-  "engines": { "node": ">=18" },
-  "bin": { "npmguard": "./dist/index.cjs" },
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "npmguard": "./dist/index.cjs"
+  },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -13,7 +17,9 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
@@ -23,7 +29,9 @@
     "update-db": "node scripts/update-db.js"
   },
   "dependencies": {
-    "commander": "^12.0.0"
+    "commander": "^12.0.0",
+    "dotenv": "^8.2.0",
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
