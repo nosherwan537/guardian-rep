@@ -72,3 +72,9 @@ export function hasCritical(report: ScanReport): boolean {
 export function hasHigh(report: ScanReport): boolean {
   return report.summary.high > 0
 }
+
+const LEVEL_RANK: Record<RiskLevel, number> = { critical: 0, high: 1, medium: 2, low: 3, info: 4 }
+
+export function hasAboveLevel(report: ScanReport, threshold: RiskLevel): boolean {
+  return report.findings.some(f => LEVEL_RANK[f.level] <= LEVEL_RANK[threshold])
+}
